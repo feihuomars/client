@@ -63,7 +63,7 @@ int main() {
 	int recv_result = 0;
 	//SecureZeroMemory(send_buf, SEND_BUF_SIZE);
 
-	char buffer[BUFFER_SIZE];
+	/*char buffer[BUFFER_SIZE];
 	ZeroMemory(buffer, BUFFER_SIZE);
 	FILE *fp = fopen("D://test/testClinet.t", "wb");
 	if (fp == NULL) {
@@ -76,16 +76,16 @@ int main() {
 		recv(sock_client, buffer, BUFFER_SIZE, 0);
 		cout << buffer << endl;
 
-		/*while ((length = recv(sock_client, buffer, BUFFER_SIZE, 0)) > 0) {
+		while ((length = recv(sock_client, buffer, BUFFER_SIZE, 0)) > 0) {
 			if (fwrite(buffer, sizeof(char), length, fp) < length) {
 				cout << "File write failed" << endl;
 			}
 			cout << "recving file....." << endl;
 			ZeroMemory(buffer, BUFFER_SIZE);
-		}*/
+		}
 		cout << "FIle recv succeed" << endl;
 	}
-	fclose(fp);
+	fclose(fp);*/
 
 
 	//do {
@@ -117,9 +117,11 @@ int main() {
 	//	}
 	//} while (recv_result > 0);
 
-
-
-
+	cout << "before recv" << endl;
+	
+	//i_result = send(sock_client, "jjjjjjjjj", SEND_BUF_SIZE, 0);
+	recv_result = recv(sock_client, send_buf, SEND_BUF_SIZE, 0);
+	cout << "recved data:" << send_buf << endl;
 
 
 	//
