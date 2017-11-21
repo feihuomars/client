@@ -12,6 +12,7 @@ using std::flush;
 
 const char DEFAULT_PORT[] = "4000";
 const int SEND_BUF_SIZE = 256;
+const int BUFFER_SIZE = 1024;
 
 //客户端
 int main() {
@@ -61,34 +62,66 @@ int main() {
 	char send_buf[SEND_BUF_SIZE];
 	int recv_result = 0;
 	//SecureZeroMemory(send_buf, SEND_BUF_SIZE);
-	do {
-		cout << "enter the message that you want to send: " << flush;
-		cin.getline(send_buf, SEND_BUF_SIZE);
-		i_result = send(sock_client, send_buf, static_cast<int>(strlen(send_buf)), 0);
-		if (i_result == SOCKET_ERROR) {
-			cerr << "send() function failed with error: " << WSAGetLastError() << "\n";
-			closesocket(sock_client);
-			WSACleanup();
-			system("pause");
-			return 1;
-		}
-		cout << "Bytes sent: " << i_result << endl;
-		//接收服务器返回的数据
-		recv_result = recv(sock_client, send_buf, SEND_BUF_SIZE, 0);
-		if (recv_result > 0) {
-			cout << "feedback from server: " << send_buf << endl;
-		}
-		else if (recv_result == 0) {
-			cout << "connection closed..." << endl;
-		}
-		else {
-			cerr << "recv() function failed with error: " << WSAGetLastError() << "\n";
-			closesocket(sock_client);
-			WSACleanup();
-			system("pause");
-			return 1;
-		}
-	} while (recv_result > 0);
+
+	char buffer[BUFFER_SIZE];
+	ZeroMemory(buffer, BUFFER_SIZE);
+	FILE *fp = fopen("D://test/testClinet.t", "wb");
+	if (fp == NULL) {
+		cout << "File open failed" << endl;
+	}
+	else {
+		cout << "File open succeed" << endl;
+		int length = 0;
+
+		recv(sock_client, buffer, BUFFER_SIZE, 0);
+		cout << buffer << endl;
+
+		/*while ((length = recv(sock_client, buffer, BUFFER_SIZE, 0)) > 0) {
+			if (fwrite(buffer, sizeof(char), length, fp) < length) {
+				cout << "File write failed" << endl;
+			}
+			cout << "recving file....." << endl;
+			ZeroMemory(buffer, BUFFER_SIZE);
+		}*/
+		cout << "FIle recv succeed" << endl;
+	}
+	fclose(fp);
+
+
+	//do {
+	//	cout << "enter the message that you want to send: " << flush;
+	//	cin.getline(send_buf, SEND_BUF_SIZE);
+	//	i_result = send(sock_client, send_buf, static_cast<int>(strlen(send_buf)), 0);
+	//	if (i_result == SOCKET_ERROR) {
+	//		cerr << "send() function failed with error: " << WSAGetLastError() << "\n";
+	//		closesocket(sock_client);
+	//		WSACleanup();
+	//		system("pause");
+	//		return 1;
+	//	}
+	//	cout << "Bytes sent: " << i_result << endl;
+	//	//接收服务器返回的数据
+	//	recv_result = recv(sock_client, send_buf, SEND_BUF_SIZE, 0);
+	//	if (recv_result > 0) {
+	//		cout << "feedback from server: " << send_buf << endl;
+	//	}
+	//	else if (recv_result == 0) {
+	//		cout << "connection closed..." << endl;
+	//	}
+	//	else {
+	//		cerr << "recv() function failed with error: " << WSAGetLastError() << "\n";
+	//		closesocket(sock_client);
+	//		WSACleanup();
+	//		system("pause");
+	//		return 1;
+	//	}
+	//} while (recv_result > 0);
+
+
+
+
+
+
 	//
 	i_result = shutdown(sock_client, SD_SEND);
 	if (i_result == SOCKET_ERROR) {
