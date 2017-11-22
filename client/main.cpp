@@ -63,9 +63,9 @@ int main() {
 	int recv_result = 0;
 	//SecureZeroMemory(send_buf, SEND_BUF_SIZE);
 
-	/*char buffer[BUFFER_SIZE];
+	char buffer[BUFFER_SIZE];
 	ZeroMemory(buffer, BUFFER_SIZE);
-	FILE *fp = fopen("D://test/testClinet.t", "wb");
+	FILE *fp = fopen("D://test/picture1.jpg", "rb");
 	if (fp == NULL) {
 		cout << "File open failed" << endl;
 	}
@@ -74,18 +74,19 @@ int main() {
 		int length = 0;
 
 		recv(sock_client, buffer, BUFFER_SIZE, 0);
-		cout << buffer << endl;
-
-		while ((length = recv(sock_client, buffer, BUFFER_SIZE, 0)) > 0) {
-			if (fwrite(buffer, sizeof(char), length, fp) < length) {
-				cout << "File write failed" << endl;
+		cout << "data from server: " << buffer << endl;
+		ZeroMemory(buffer, BUFFER_SIZE);
+		Sleep(5000);
+		while ((length = fread(buffer, sizeof(char), BUFFER_SIZE, fp)) > 0) {
+			if (send(sock_client, buffer, BUFFER_SIZE, 0) < 0) {
+				cout << "File read failed" << endl;
 			}
-			cout << "recving file....." << endl;
+			cout << "sending file....." << endl;
 			ZeroMemory(buffer, BUFFER_SIZE);
 		}
-		cout << "FIle recv succeed" << endl;
+		cout << "FIle send succeed" << endl;
 	}
-	fclose(fp);*/
+	fclose(fp);
 
 
 	//do {
@@ -117,11 +118,17 @@ int main() {
 	//	}
 	//} while (recv_result > 0);
 
-	cout << "before recv" << endl;
+	/*cout << "before recv" << endl;*/
 	
 	//i_result = send(sock_client, "jjjjjjjjj", SEND_BUF_SIZE, 0);
-	recv_result = recv(sock_client, send_buf, SEND_BUF_SIZE, 0);
-	cout << "recved data:" << send_buf << endl;
+
+	/*do {
+		recv_result = recv(sock_client, buffer, BUFFER_SIZE, 0);
+		cout << "recved data:" << buffer << endl;
+	} while (recv_result > 0);*/
+
+	
+	
 
 
 	//
