@@ -63,6 +63,7 @@ int main() {
 	int recv_result = 0;
 	//SecureZeroMemory(send_buf, SEND_BUF_SIZE);
 
+	//具体的收发操作
 	char buffer[BUFFER_SIZE];
 	ZeroMemory(buffer, BUFFER_SIZE);
 	FILE *fp = fopen("D://test/picture1.jpg", "rb");
@@ -76,7 +77,7 @@ int main() {
 		recv(sock_client, buffer, BUFFER_SIZE, 0);
 		cout << "data from server: " << buffer << endl;
 		ZeroMemory(buffer, BUFFER_SIZE);
-		Sleep(5000);
+		Sleep(3000);	//收到后延时3s发送
 		while ((length = fread(buffer, sizeof(char), BUFFER_SIZE, fp)) > 0) {
 			if (send(sock_client, buffer, BUFFER_SIZE, 0) < 0) {
 				cout << "File read failed" << endl;
